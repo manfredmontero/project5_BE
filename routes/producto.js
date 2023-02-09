@@ -3,10 +3,10 @@ const express = require("express");
 const app = express.Router();
 const Producto = require("../models/Producto");
 
-app.get("/obtener", async (req, res) => {
+app.get("/obtenerproducto", async (req, res) => {
   try {
-    const balance = await Balance.find({});
-    res.json({ balance });
+    const producto = await Producto.find({});
+    res.json({ producto });
   } catch (error) {
     res.status(500).json({
       msg: "Hubo un error obteniendo los datos",
@@ -32,30 +32,30 @@ app.post("/agregarproducto", async (req, res) => {
   }
 });
 
-app.put("/actualizar", async (req, res) => {
-  const { id, descripcion, tipo, monto } = req.body;
+app.put("/actualizarproducto", async (req, res) => {
+  const { id, nombre, descripcion, precio, url } = req.body;
 
   try {
-    const actualizacionBalance = await Balance.findByIdAndUpdate(
+    const actualizacionProducto = await Producto.findByIdAndUpdate(
       id,
-      { descripcion, tipo, monto },
+      { nombre, descripcion, precio, url },
       { new: true }
     );
-    res.json(actualizacionBalance);
+    res.json(actualizacionProducto);
   } catch (error) {
     res.status(500).json({
-      msg: "Hubo un error actualizando el Balance",
+      msg: "Hubo un error actualizando el Producto",
     });
   }
 });
 
-app.delete("/borrar", async (req, res) => {
+app.delete("/borrarproducto", async (req, res) => {
   const { id } = req.body;
 
   try {
-    const BalanceBorrado = await Balance.findByIdAndRemove({ _id: id });
+    const ProductoBorrado = await Producto.findByIdAndRemove({ _id: id });
 
-    res.json(BalanceBorrado);
+    res.json(ProductoBorrado);
   } catch (error) {
     res.status(500).json({
       msg: "Hubo un error borrando el dato especificado",
